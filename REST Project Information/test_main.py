@@ -43,27 +43,28 @@ class fish:
     def doEverything(self):
         return 'Hello'
         """get all the info as lists"""
-        #persons first
+        #get skills
+        #turn into objects
+
+        #get categories
+        #turn into objects
+
+        #get persons
         personsString = self.getAllPersons()
         personsList = 'personsString as a list'
 
+        #get projects
         projectsList = 'df'
-        #skills
-        #etc.
-
-        #make the info into objects
 
         #get the skills for the person
         for person in personsList:
             person.getSkills()
 
         for project in projectsList:
-            project.getSkill()
+            project.getSkills()
 
-        #for each project, find people with skills (hard)
-        output = match()
-
-
+        #for each project, find people with skills
+        match()
 
         #print out everything in a nice format
 
@@ -101,6 +102,7 @@ class Person:
         self.id = -1
         self.name = ''
         self.availability = -1
+        #this will be a list of PersonSkills
         self.skills = []
 
     def createFromString(self):
@@ -112,9 +114,17 @@ class Person:
         return 'go'
 
     def compare(self, skillList):
-        """if the person has the required skills return True"""
+        """if the person has the required skills return True, skillList will be a list of projectSkills"""
+        for projectSkill in skillList:
+            gotSkill = False
+            for personSkill in self.skills:
+                if (personSkill.categoryId == projectSkill.categoryId)and(personSkill.skillId == projectSkill.skillId)\
+                    and (projectSkill.levelMin < personSkill.level) and (projectSkill.levelMax > personSkill.level):
+                    gotSkill = True
+            if gotSkill == False:
+                return False
+        return True
 
-        return False
 
 class Skill:
     def __init__(self):
@@ -128,6 +138,7 @@ class PersonSkill:
         self.personId = -1
         self.skillId = -1
         self.level = -1
+        self.categoryId = -1
 
 
 class Project:
@@ -135,9 +146,11 @@ class Project:
         self.id = -1
         self.name = ''
         self.client = ''
+        self.skills = []
 
     def getSkills(self):
         """get all the skills for this project"""
+        self.skills
 
 
 class ProjectSkill:
@@ -154,12 +167,6 @@ class Category:
     def __init__(self):
         self.categoryId = -1
         self.name = ''
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
