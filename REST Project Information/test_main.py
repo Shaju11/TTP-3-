@@ -25,15 +25,24 @@ urls = (
 
 app = web.application(urls, globals())
 
+def removeUnicodeChars(list):
+    newlist = []
+    for item in list:	#iterate over the individual tuples
+        try:
+            item = item.decode('unicode_escape').encode('ascii','ignore') # remove the unicode
+        except AttributeError: # catch for non-unicode chars
+            item = item
+        newlist.append(item) # append to the new list (does not seem to like it when trying to change it in the old list)
+    return newlist
 
-class list_users:
-    def GET(self):
-        output = 'users:['
-        for child in root:
-            print 'child', child.tag, child.attrib
-            output += str(child.attrib) + ', '
-        output += ']'
-        return output
+#class list_users:
+#    def GET(self):
+#        output = 'users:['
+#        for child in root:
+#            print 'child', child.tag, child.attrib
+#            output += str(child.attrib) + ', '
+#        output += ']'
+#        return output
 
 
 class fish:
@@ -74,7 +83,7 @@ class fish:
         #for each project, find people with skills
         self.match(projectsList, personsList)
 
-        #print out everything in a nice format
+        #return everything in a nice format
         return self.displayInfo(projectsList)
 
     def displayInfo(self, projectsList):
@@ -87,33 +96,50 @@ class fish:
         """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
         return 'NO!'
 
-    def sendAllPersons(self):
-        """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
-        return 'no!'
-
     def match(self, projectsList, personsList):
         """by this point we have all the info in objects and we want to match people to projects"""
         for project in projectsList:
             for person in personsList:
-                #compare person skills to requirements
-                if person.compare(project.skills):
+                if ((person.availability is None) or (person.availability == 0))\
+                   and (person.compare(project.skills)):
                     project.capablePersons.append(person)
 
     def getAllPersons(self):
-        return '[()]'
+        return "[(1, u'Rob', 1, 1, 2013-10-07, 0), (2, u'Adam', NULL, 3, 2014-12-08, 1), (3, u'Stephen', 1, 5, 2006-07-05, 0)]"
 
     def makePersonsStringIntoObjects(self, personsString):
         """takes a sting with the person info then turns it into a list of objects"""
-        dave = Person()
-        dave.id = 1
-        dave.name = 'Clive (nee dave)'
-        dave.availability = 0
+        personsString = personsString[2:(len(personsString)-2)]  # deletes first and last brackets
+        personsList = personsString.split('), (')  # splits on ')'
 
-        dave2 = Person()
-        dave2.id = 2
-        dave2.name = 'Clive2 (nee dave2)'
-        dave2.availability = 1
-        return [dave, dave2]
+        personObjList = []
+        for person in personsList:
+            AttribList = person.split(', ')
+
+            #personAttribList = removeUnicodeChars(AttribList)
+            personAttribList = AttribList
+            personObj = Person()
+            personObj.id = personAttribList[0]
+            person.name = personattrib[1]
+            personObj.availability = personAttribList[2]
+            personObj.position = personAttribList[3]  # as in, rank, I think?
+            personObj.availabilitydate = personAttribList[4]
+            personObj.employeetype = personAttribList[5]  # not relevant (yet??)
+            personObjList.append(personObj)
+        return personObjList
+
+    ###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###
+    #def makePersonsStringIntoObjects(self, personsString):
+    #    """takes a sting with the person info then turns it into a list of objects"""
+    #    dave = Person()
+    #    dave.id = 1
+    #    dave.name = 'Clive (nee dave)'
+    #    dave.availability = 0
+    #    dave2 = Person()
+    #    dave2.id = 2
+    #    dave2.name = 'Clive2 (nee dave2)'
+    #    dave2.availability = None
+    #    return [dave, dave2]
 
     def getAllPersonSkills(self):
         return 'get all personSkills'
@@ -129,7 +155,7 @@ class fish:
         personSkill2 = PersonSkill()
         personSkill2.id = 1
         personSkill2.categoryId = 1
-        personSkill2.level = 0
+        personSkill2.level = 3
         personSkill2.skillId = 1
         personSkill2.personId = 2
         return [personSkill, personSkill2]
@@ -159,6 +185,17 @@ class fish:
         return [projSkill]
 
 
+"""
+def getRidOfUnicode(*input):
+#Get rid of unicode loop
+    for attribute in input:
+        try:
+            attribute = attribute.decode('unicode_escape').encode('ascii', 'ignore')
+        except AttributeError:
+            continue
+    return attribute
+"""
+
 class get_user:
     def GET(self, user):
         for child in root:
@@ -170,7 +207,7 @@ class Person:
     def __init__(self):
         self.id = -1
         self.name = ''
-        self.availability = -1
+        self.availability = None
         #this will be a list of PersonSkills
         self.skills = []
 
@@ -233,7 +270,7 @@ class Project:
         output += 'Client: ' + self.client + '\n\n'
         output += 'Capable people:\n'
         if len(self.capablePersons) < 1:     ######project.numberNeeded: # for underavailability
-            output += 'No enough capable people available'
+            output += 'Not enough capable people available'
         for person in self.capablePersons:
             output += person.name + '\n'
         return output
