@@ -100,15 +100,20 @@ class fish:
                     project.capablePersons.append(person)
 
     def getAllPersons(self):
-        return 'get all persons'
+        return '[()]'
 
     def makePersonsStringIntoObjects(self, personsString):
         """takes a sting with the person info then turns it into a list of objects"""
         dave = Person()
         dave.id = 1
         dave.name = 'Clive (nee dave)'
-        dave.availability = True
-        return [dave]
+        dave.availability = 0
+
+        dave2 = Person()
+        dave2.id = 2
+        dave2.name = 'Clive2 (nee dave2)'
+        dave2.availability = 1
+        return [dave, dave2]
 
     def getAllPersonSkills(self):
         return 'get all personSkills'
@@ -120,7 +125,14 @@ class fish:
         personSkill.level = 3
         personSkill.skillId = 1
         personSkill.personId = 1
-        return [personSkill]
+
+        personSkill2 = PersonSkill()
+        personSkill2.id = 1
+        personSkill2.categoryId = 1
+        personSkill2.level = 0
+        personSkill2.skillId = 1
+        personSkill2.personId = 2
+        return [personSkill, personSkill2]
 
     def getAllProjects(self):
         return 'blah!'
@@ -136,6 +148,7 @@ class fish:
         return 'stuff'
 
     def makeProjectSkillsStringIntoObjects(self, projectSkillsString):
+        """stub"""
         projSkill = ProjectSkill()
         projSkill.skillId = 1
         projSkill.levelMin = 1
@@ -177,7 +190,7 @@ class Person:
             gotSkill = False
             for personSkill in self.skills:
                 if (personSkill.categoryId == projectSkill.categoryId)and(personSkill.skillId == projectSkill.skillId)\
-                    and (projectSkill.levelMin < personSkill.level) and (projectSkill.levelMax > personSkill.level):
+                    and (projectSkill.levelMin <= personSkill.level) and (projectSkill.levelMax >= personSkill.level):
                     gotSkill = True
             if gotSkill == False:
                 return False
