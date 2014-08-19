@@ -75,11 +75,13 @@ class fish:
         self.match(projectsList, personsList)
 
         #print out everything in a nice format
-        self.displayInfo()
-        return 'Woooo!'
+        return self.displayInfo(projectsList)
 
-    def displayInfo(self):
-        return 'display info!'
+    def displayInfo(self, projectsList):
+        output = ''
+        for project in projectsList:
+            output += project.outputInfo()
+        return output
 
     def getAllPersons(self):
         """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
@@ -127,7 +129,7 @@ class fish:
         projectX = Project()
         projectX.id = 2
         projectX.client = 'Dr. Death'
-        projectX.name = 'ProJect ><'
+        projectX.name = 'Project X'
         return [projectX]
 
     def getAllPersonSkills(self):
@@ -210,6 +212,18 @@ class Project:
         for projectSkill in projectSkillsList:
             if self.id == projectSkill.projectId:
                 self.skills.append(projectSkill)
+
+    def outputInfo(self):
+        output = 'Project ID: ' + str(self.id) + '\n'
+        output += 'Project: ' + self.name + '\n'
+
+        output += 'Client: ' + self.client + '\n\n'
+        output += 'Capable people:\n'
+        if len(self.capablePersons) < 1:     ######project.numberNeeded: # for underavailability
+            output += 'No enough capable people available'
+        for person in self.capablePersons:
+            output += person.name + '\n'
+        return output
 
 class ProjectSkill:
     def __init__(self):
