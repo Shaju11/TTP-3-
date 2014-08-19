@@ -28,11 +28,11 @@ app = web.application(urls, globals())
 
 class list_users:
     def GET(self):
-        output = 'users:[';
+        output = 'users:['
         for child in root:
             print 'child', child.tag, child.attrib
             output += str(child.attrib) + ', '
-        output += ']';
+        output += ']'
         return output
 
 
@@ -41,7 +41,6 @@ class fish:
         return self.doEverything()
 
     def doEverything(self):
-        return 'Hello'
         """get all the info as lists"""
         #get skills
         #turn into objects
@@ -51,24 +50,36 @@ class fish:
 
         #get persons
         personsString = self.getAllPersons()
-        personsList = 'personsString as a list'
+        personsList = self.makePersonsStringIntoObjects(personsString)
+
+        #get personSkills
+        personSkillsString = self.getAllPersonSkills()
+        personSkillsList = self.makePersonSkillsStringIntoObjects(personSkillsString)
 
         #get projects
-        projectsList = 'df'
+        projectsString = self.getAllProjects()
+        projectsList = self.makeProjectsStringIntoObjects(projectsString)
+
+        #get projectSkills
+        projectSkillsString = self.getAllPersonSkills()
+        projectSkillsList = self.makeProjectSkillsStringIntoObjects(projectSkillsString)
 
         #get the skills for the person
         for person in personsList:
-            person.getSkills()
+            person.setSkills(personSkillsList)
 
         for project in projectsList:
-            project.getSkills()
+            project.setSkills(projectSkillsList)
 
         #for each project, find people with skills
-        match()
+        self.match(projectsList, personsList)
 
         #print out everything in a nice format
+        self.displayInfo()
+        return 'Woooo!'
 
-        return 'go!'
+    def displayInfo(self):
+        return 'display info!'
 
     def getAllPersons(self):
         """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
@@ -78,16 +89,59 @@ class fish:
         """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
         return 'no!'
 
-    def match(self, projectList, personList):
+    def match(self, projectsList, personsList):
         """by this point we have all the info in objects and we want to match people to projects"""
-        for project in projectList:
-            for person in personList:
+        for project in projectsList:
+            for person in personsList:
                 #compare person skills to requirements
-                if person.compare(project.skill):
+                if person.compare(project.skills):
                     project.capablePersons.append(person)
 
-        return 'go!'
+    def getAllPersons(self):
+        return 'get all persons'
 
+    def makePersonsStringIntoObjects(self, personsString):
+        """takes a sting with the person info then turns it into a list of objects"""
+        dave = Person()
+        dave.id = 1
+        dave.name = 'Clive (nee dave)'
+        dave.availability = True
+        return [dave]
+
+    def getAllPersonSkills(self):
+        return 'get all personSkills'
+
+    def makePersonSkillsStringIntoObjects(self, personSkillsString):
+        personSkill = PersonSkill()
+        personSkill.id = 1
+        personSkill.categoryId = 1
+        personSkill.level = 3
+        personSkill.skillId = 1
+        personSkill.personId = 1
+        return [personSkill]
+
+    def getAllProjects(self):
+        return 'blah!'
+
+    def makeProjectsStringIntoObjects(self, projectsString):
+        projectX = Project()
+        projectX.id = 2
+        projectX.client = 'Dr. Death'
+        projectX.name = 'ProJect ><'
+        return [projectX]
+
+    def getAllPersonSkills(self):
+        return 'stuff'
+
+    def makeProjectSkillsStringIntoObjects(self, projectSkillsString):
+        projSkill = ProjectSkill()
+        projSkill.skillId = 1
+        projSkill.levelMin = 1
+        projSkill.levelMax = 4
+        projSkill.categoryId = 1
+        projSkill.projectId = 2
+        projSkill.id = 1
+        return [projSkill]
 
 
 class get_user:
@@ -109,9 +163,11 @@ class Person:
         """turn the string into an object"""
         return ''
 
-    def getSkill(self):
+    def setSkills(self, personSkillsList):
         """creates a list of skills that this person has"""
-        return 'go'
+        for personSkill in personSkillsList:
+            if self.id == personSkill.personId:
+                self.skills.append(personSkill)
 
     def compare(self, skillList):
         """if the person has the required skills return True, skillList will be a list of projectSkills"""
@@ -147,11 +203,13 @@ class Project:
         self.name = ''
         self.client = ''
         self.skills = []
+        self.capablePersons = []
 
-    def getSkills(self):
-        """get all the skills for this project"""
-        self.skills
-
+    def setSkills(self, projectSkillsList):
+        """sets all the skills for this project, puts a list of projectSkills on each project object"""
+        for projectSkill in projectSkillsList:
+            if self.id == projectSkill.projectId:
+                self.skills.append(projectSkill)
 
 class ProjectSkill:
     def __init__(self):
@@ -161,6 +219,9 @@ class ProjectSkill:
         self.levelMin = 0
         self.levelMax = 5
         self.categoryId = -1
+
+    def createFromString(self):
+        return 'go'
 
 
 class Category:
