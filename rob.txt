@@ -1,0 +1,20 @@
+Skill
+[(u'Python', 0, 5), (u'C#',3, 6), (u'Java', 4, 7)]
+
+Employee
+[(1, u'Rob', 1, 1, 2013-10-07, 0), (2, u'Adam', NULL, 3, 2014-12-08, 1), (2, u'Stephen', 1, 5, 2006-07-05, 0)]
+
+Employee skill
+[(1 , 1 , 0 , 6 , 0), (2, 2, 3, 4, 1), (3, 3, 3, 6, 0)]
+
+Project
+[(8, u'Mileyproject', u'Disney', 2014-07-03, 2014-07-23, u'Active', 20), (9, u'Frozen', u'Disney', 2011-09-09, 2011-09-29, u'Completed', 3), (11, u'Ilovechoc', u'Rachelscompany', 2010-10-20, 2011-10-20, u'Future', 1)]
+
+Project Skill
+[(2, 8, 0, 0, 5, 5), (4, 9, 3, 1, 4, 6), (3, 11, 7, 3, 3, 7)]
+
+Category
+[(5, u'Agile'), (6, u'Automation'), (7, u'Performance')]
+
+
+
