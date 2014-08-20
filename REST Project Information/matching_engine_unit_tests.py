@@ -30,7 +30,5 @@ class MyTestCase(unittest.TestCase):
 		cat = main.fish()
 		self.assertEqual('get all personSkills',cat.getAllPersonSkills())
 
-
-
 if __name__ == '__main__':
 	unittest.main()
