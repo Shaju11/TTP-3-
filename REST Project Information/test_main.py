@@ -74,11 +74,12 @@ class fish:
         projectSkillsList = self.makeProjectSkillsStringIntoObjects(projectSkillsString)
 
         #get the skills for the person
+
         for person in personsList:
-            person.setSkills(personSkillsList)
+            person.setPersonSkills(personSkillsList)
 
         for project in projectsList:
-            project.setSkills(projectSkillsList)
+            project.setProjectSkills(projectSkillsList)
 
         #for each project, find people with skills
         self.match(projectsList, personsList)
@@ -92,10 +93,6 @@ class fish:
             output += project.outputInfo()
         return output
 
-    def getAllPersons(self):
-        """returns all the rows in the Person table to send to another comp, in a nice format (to be determined)"""
-        return 'NO!'
-
     def match(self, projectsList, personsList):
         """by this point we have all the info in objects and we want to match people to projects"""
         for project in projectsList:
@@ -104,28 +101,33 @@ class fish:
                    and (person.compare(project.skills)):
                     project.capablePersons.append(person)
 
+    def splitObjects(self, string):
+        string = string[2:(len(string)-2)]  # deletes first and last brackets
+        stringList = string.split('), (')  # splits on ')'
+        return stringList
+
     def getAllPersons(self):
         return "[(1, u'Rob', 1, 1, 2013-10-07, 0), (2, u'Adam', NULL, 3, 2014-12-08, 1), (3, u'Stephen', 1, 5, 2006-07-05, 0)]"
 
     def makePersonsStringIntoObjects(self, personsString):
         """takes a sting with the person info then turns it into a list of objects"""
-        personsString = personsString[2:(len(personsString)-2)]  # deletes first and last brackets
-        personsList = personsString.split('), (')  # splits on ')'
-
-        personObjList = []
-        for person in personsList:
-            AttribList = person.split(', ')
 
             #personAttribList = removeUnicodeChars(AttribList)
-            personAttribList = AttribList
+        personList = self.splitObjects(personsString)
+
+        personObjList = []
+        for item in personList:
+            personAttribList = item.split(', ')
+
             personObj = Person()
             personObj.id = personAttribList[0]
-            person.name = personattrib[1]
+            personObj.name = personAttribList[1]
             personObj.availability = personAttribList[2]
             personObj.position = personAttribList[3]  # as in, rank, I think?
             personObj.availabilitydate = personAttribList[4]
             personObj.employeetype = personAttribList[5]  # not relevant (yet??)
             personObjList.append(personObj)
+
         return personObjList
 
     ###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###STUB###
@@ -142,39 +144,87 @@ class fish:
     #    return [dave, dave2]
 
     def getAllPersonSkills(self):
-        return 'get all personSkills'
+        return "[(2, 8, 0, 0, 5, 5), (4, 9, 3, 1, 4, 6), (3, 11, 7, 3, 3, 7)]"
 
     def makePersonSkillsStringIntoObjects(self, personSkillsString):
-        personSkill = PersonSkill()
-        personSkill.id = 1
-        personSkill.categoryId = 1
-        personSkill.level = 3
-        personSkill.skillId = 1
-        personSkill.personId = 1
+        """takes a sting with the person skill info then turns it into a list of objects"""
+        skillList = self.splitObjects(personSkillsString)
+        skillObjList = []
+        for item in skillList:
+            skillAttribList = item.split(', ')
+            skillObj = PersonSkill()
+            skillObj.id = skillAttribList[0]
+            skillObj.categoryId = skillAttribList[1]
+            skillObj.level = skillAttribList[2]
+            skillObj.skillId = skillAttribList[3]  # as in, rank, I think?
+            skillObj.personId = skillAttribList[4]
+            skillObjList.append(skillObj)
+        return skillObjList
+       # personSkill = PersonSkill()
+       # personSkill.id = 1
+        #personSkill.categoryId = 1
+        #personSkill.level = 3
+        #personSkill.skillId = 1
+        #personSkill.personId = 1
 
-        personSkill2 = PersonSkill()
-        personSkill2.id = 1
-        personSkill2.categoryId = 1
-        personSkill2.level = 3
-        personSkill2.skillId = 1
-        personSkill2.personId = 2
-        return [personSkill, personSkill2]
+       # personSkill2 = PersonSkill()
+       # personSkill2.id = 1
+       # personSkill2.categoryId = 1
+       # personSkill2.level = 3
+       # personSkill2.skillId = 1
+       # personSkill2.personId = 2
+       # return [personSkill, personSkill2]
 
     def getAllProjects(self):
-        return 'blah!'
+        return "[(8, u'Mileyproject', u'Disney', 2014-07-03, 2014-07-23, u'Active', 20), (9, u'Frozen', u'Disney', 2011-09-09, 2011-09-29, u'Completed', 3), (11, u'Ilovechoc', u'Rachelscompany', 2010-10-20, 2011-10-20, u'Future', 1)]"
 
     def makeProjectsStringIntoObjects(self, projectsString):
-        projectX = Project()
-        projectX.id = 2
-        projectX.client = 'Dr. Death'
-        projectX.name = 'Project X'
-        return [projectX]
+        """takes a string with the project info then turns it into a list of objects"""
 
-    def getAllPersonSkills(self):
-        return 'stuff'
+        projectList = self.splitObjects(projectsString)
+        projectObjList = []
+        for item in projectList:
+            projectAttribList = item.split(', ')
+            projectObj = PersonSkill()
+            projectObj.id = projectAttribList[0]
+            projectObj.name = projectAttribList[1]
+            projectObj.client = projectAttribList[2]
+            projectObj.status = projectAttribList[3]
+            projectObj.numberOfPeople = projectAttribList[4]
+            projectObj.startDate = projectAttribList[5]
+            projectObj.endDate = projectAttribList[6]
+            projectObjList.append(projectObj)
+        return projectObjList
+
+    #STUB!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #def makeProjectsStringIntoObjects(self, projectsString):
+    #    projectX = Project()
+    #    projectX.id = 2
+    #    projectX.client = 'Dr. Death'
+    #    projectX.name = 'Project X'
+    #    return [projectX]
+
+    def getAllProjectSkills(self):
+        return 'ignore'
 
     def makeProjectSkillsStringIntoObjects(self, projectSkillsString):
-        """stub"""
+
+        projectSkillsList = self.splitObjects(projectSkillsString)
+        projectSkillsObjList = []
+        for item in projectSkillsList:
+            projectSkillsAttribList = item.split(', ')
+            projectSkillsObj = ProjectSkills()
+            projectSkillsObj.id = projectSkillsAttribList[0]
+            projectSkillsObj.projectId = projectSkillsAttribList[1]
+            projectSkillsObj.skillId = projectSkillsAttribList[2]
+            projectSkillsObj.levelMin = projectSkillsAttribList[3]
+            projectSkillsObj.levelMax = projectSkillsAttribList[4]
+            projectSkillsObj.categoryId = projectSkillsAttribList[5]
+            projectSkillsObjList.append(projectSkillsObj)
+        return projectSkillsObjList
+
+
+        """stub
         projSkill = ProjectSkill()
         projSkill.skillId = 1
         projSkill.levelMin = 1
@@ -185,7 +235,6 @@ class fish:
         return [projSkill]
 
 
-"""
 def getRidOfUnicode(*input):
 #Get rid of unicode loop
     for attribute in input:
@@ -215,9 +264,10 @@ class Person:
         """turn the string into an object"""
         return ''
 
-    def setSkills(self, personSkillsList):
+    def setPersonSkills(self, personSkillsList):
         """creates a list of skills that this person has"""
         for personSkill in personSkillsList:
+            # personSkillsList
             if self.id == personSkill.personId:
                 self.skills.append(personSkill)
 
@@ -257,7 +307,7 @@ class Project:
         self.skills = []
         self.capablePersons = []
 
-    def setSkills(self, projectSkillsList):
+    def setProjectSkills(self, projectSkillsList):
         """sets all the skills for this project, puts a list of projectSkills on each project object"""
         for projectSkill in projectSkillsList:
             if self.id == projectSkill.projectId:
