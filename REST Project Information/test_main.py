@@ -16,10 +16,7 @@ tree = ET.parse('user_data.xml')
 root = tree.getroot()
 
 urls = (
-    '/users', 'list_users',
-    '/fish', 'fish',
-    '/users/(.*)', 'get_user',
-    '/test', 'test'
+    '/match', 'match'
 )
 
 
@@ -35,7 +32,7 @@ def removeUnicodeChars(list):
         newlist.append(item) # append to the new list (does not seem to like it when trying to change it in the old list)
     return newlist
 
-class fish:
+class match:
     def GET(self):
         return self.doEverything()
 
@@ -157,16 +154,13 @@ class fish:
     #return attribute
 
     def getAllProjectSkills(self):
-        return "[(40, 39, 30, 2, 4, 31)]"
-
+        return "[(10, 10, 10, 0, 4, 15), (11, 11, 11, 1, 4, 16), (12, 12, 12, 1, 2, 17), (500, 400, 25, 0, 5, 20), (501, 401, 26, 1, 4, 21), (502, 402, 27, 3, 4, 22), (40, 39, 30, 3, 5, 31)]"
     def getAllProjects(self):
-        return "[(39, u'testproject30s', u'adamisclient', 0, 3, 2013-05-12, 2013-05-20)]"
-
+        return "[(10, u'YeahBoi', u'TheLads', u'Active', 5, 2014-07-03, 2014-08-23), (11, u'GoingOnTour', u'Completed', 3, u'TheLads', 2011-09-09, 2011-09-29), (12, u'Ilovechoc', u'Rachelscompany', u'Future', 2014-10-20, 2015-10-20, 5), (400, u'AwsomeProject', u'Asda', u'Future', 4, 2014-02-01, 2015-02-01), (401, u'RoseProject', u'Asda', u'Future', 4,  2014-03-01, 2015-03-01), (401, u'LithuaniaProject', u'LTGovernment', u'Future', 2, 2014-04-01, 2015-04-01), (39, u'testproject30s', u'adamisclient', 0, 3, 2013-05-12, 2013-05-20)]"
     def getAllPersons(self):
-        return "[(33, u'James', 0, 2011-05-05, 7, 0), (34, u'Rachel', 0, 2012-05-05, 6, 0), (35, u'Karim', 0, 2012-06-06, 5, 0)]"
-
+        return "[(10, u'Sharrrrrjuuuu', 0, 2014-08-20, 1, 0), (11, u'Nick', 1, 2014-12-08, 3, 1), (12, u'Frank', 1, 2014-09-09, 5, 0), (200, u'Marcus', 0, 2012-10-01, 1, 0), (201, u'Odrey', 0, 2013-12-01, 3, 1), (202, u'Jacob', 0, 2013-10-01, 5, 0), (33, u'James', 0, 2011-05-05, 7, 0), (34, u'Rachel', 0, 2012-05-05, 6, 0), (35, u'Karim', 0, 2012-06-06, 5, 0)]"
     def getAllPersonSkills(self):
-        return "[(35, 33, 30, 3, 31), (37, 34, 30, 4, 31)]"
+        return "[(1 , 10 , 10 , 5 , 15), (2, 11, 11, 4, 16), (3, 12, 12, 3, 17), (300, 200 , 25 , 6, 20), (301, 201, 26, 4, 21), (302, 202, 26, 5, 21), (35, 33, 30, 3, 31), (37, 34, 30, 4, 31), (38, 35, 30, 5, 31)]"
 
 class Person:
     def __init__(self):
@@ -260,7 +254,7 @@ class Project:
         if len(self.capablePersons) < 1:     ######project.numberNeeded: # for underavailability
             output += 'Not enough capable people available\n\n'
         for person in self.capablePersons:
-            output += person.name + '\n\n'
+            output += person.name + '\n'
         return output
 
 class ProjectSkill:
