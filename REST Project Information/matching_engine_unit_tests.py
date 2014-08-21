@@ -1,34 +1,15 @@
 __author__ = 'adam.cummings'
 
 import unittest
-import test_main as main
-
-
+import test_main
+from mock import patch
 
 class MyTestCase(unittest.TestCase):
-	def test_doEverything(self):
-		cat = main.fish()
-		self.assertEqual('Woooo!',cat.doEverything())
 
-	def test_displayInfo(self):
-		cat = main.fish()
-		self.assertEqual('display info!',cat.displayInfo())
-
-	def test_getAllPersons(self):
-		cat = main.fish()
-		self.assertEqual('NO!',cat.getAllPersons())
-
-	def test_sendAllPersons(self):
-		cat = main.fish()
-		self.assertEqual('no!',cat.sendAllPersons())
-
-	def test_getAllPersons(self):
-		cat = main.fish()
-		self.assertEqual('get all persons',cat.getAllPersons())
-
-	def test_getAllPersonSkills(self):
-		cat = main.fish()
-		self.assertEqual('get all personSkills',cat.getAllPersonSkills())
-
+"""
+	@patch("test_main.match.getAllPersons")
+	def test_defaultAvailability(self,mock_getAllPersons):
+		mock_getAllPersons.return_value = "[(10, u'PersonName',, 2014-08-20, 1, 0)]"
+"""
 if __name__ == '__main__':
 	unittest.main()
