@@ -28,12 +28,11 @@ def makePersonsStringIntoObjects(personString):
         personObj.id = dictOfPerson['EmployeeID']
         personObj.name = dictOfPerson['Name']
         personObj.availability = dictOfPerson['Availability']
-        personObj.availabilitydate = dictOfPerson['AvailabilityDate']
+        personObj.availabilityDate = dictOfPerson['AvailabilityDate']
         personObj.position = dictOfPerson['Position']  # as in, rank, I think?
-        personObj.employeetype = dictOfPerson['EmploymentType'] # not relevant (yet??)
+        personObj.employeeType = dictOfPerson['EmploymentType'] # not relevant (yet??)
         personObjList.append(personObj)
     return personObjList
-
 
 #def makePersonsStringIntoObjects(personsString):
 #    """takes a sting with the person info then turns it into a list of objects"""
@@ -60,10 +59,10 @@ def makePersonSkillsStringIntoObjects(personSkillString):
     for dictOfPersonSkill in listOfDictOfPersonSkill:
          personSkillObj = test_main.PersonSkill()
          personSkillObj.id = dictOfPersonSkill['EmployeeSkillID']
-         personSkillObj.EmployeeID = dictOfPersonSkill['EmployeeID']
-         personSkillObj.SkillID = dictOfPersonSkill['SkillID']
-         personSkillObj.SkillLevel = dictOfPersonSkill['SkillLevel']
-         personSkillObj.CategoryID = dictOfPersonSkill['CategoryID']  # as in, rank, I think?
+         personSkillObj.personId = dictOfPersonSkill['EmployeeID']
+         personSkillObj.skillId = dictOfPersonSkill['SkillID']
+         personSkillObj.level = dictOfPersonSkill['SkillLevel']
+         personSkillObj.categoryId = dictOfPersonSkill['CategoryID']  # as in, rank, I think?
          personSkillObjList.append(personSkillObj)
     return personSkillObjList
 
